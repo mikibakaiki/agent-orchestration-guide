@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Step 1 — Write your AGENTS.md</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0c0c0e;
+  --bg-soft: #131318;
+  --bg-card: #16161c;
+  --bg-code: #0a0a0d;
+  --ink: #e8e3d8;
+  --ink-muted: #a39e92;
+  --ink-dim: #6a655c;
+  --ink-faint: #3a3731;
+  --line: #25232b;
+  --line-soft: #1a1820;
+  --amber: #f5a623;
+  --amber-soft: rgba(245, 166, 35, 0.12);
+  --amber-dim: rgba(245, 166, 35, 0.3);
+  --rust: #d97757;
+  --moss: #7a9669;
+  --rose: #c47b8e;
+  --slate: #6789a8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--bg); }
+
+body {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at top, rgba(245, 166, 35, 0.04), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(217, 119, 87, 0.025), transparent 40%);
+  min-height: 100vh;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 64px 32px 120px;
+}
+
+.wrap-wide {
+  max-width: 980px;
+}
+
+/* TOP BAR */
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 56px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.topnav a {
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.topnav a:hover { color: var(--amber); }
+.topnav .crumbs { display: flex; gap: 16px; align-items: center; }
+.topnav .crumbs .sep { color: var(--ink-faint); }
+.topnav .chip {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+}
+.topnav .chip .num {
+  color: var(--amber);
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3, h4 {
+  font-family: 'Instrument Serif', 'Newsreader', Georgia, serif;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(44px, 7vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 38px;
+  line-height: 1.15;
+  margin: 72px 0 20px;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 40px 0 12px;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+h4 {
+  font-size: 16px;
+  margin: 24px 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  font-weight: 500;
+}
+
+p {
+  margin: 0 0 18px;
+  color: var(--ink);
+}
+
+.lede {
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  margin-bottom: 48px;
+  font-style: italic;
+  font-family: 'Instrument Serif', 'Newsreader', serif;
+}
+
+em, i {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ink);
+}
+
+strong, b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+a {
+  color: var(--amber);
+  text-decoration: none;
+  border-bottom: 1px solid var(--amber-dim);
+  transition: border-color 0.15s, color 0.15s;
+}
+a:hover { border-bottom-color: var(--amber); }
+
+ul, ol {
+  margin: 0 0 20px;
+  padding-left: 28px;
+}
+li { margin-bottom: 8px; color: var(--ink); }
+li::marker { color: var(--ink-dim); }
+
+/* MONO / CODE */
+code, pre, kbd {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+code {
+  font-size: 0.88em;
+  background: var(--bg-soft);
+  color: var(--amber);
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--line-soft);
+}
+
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+  position: relative;
+}
+pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  font-size: inherit;
+}
+
+/* CODE BLOCK WITH COPY */
+.codeblock {
+  position: relative;
+  margin: 0 0 24px;
+}
+.codeblock .lang {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  z-index: 1;
+}
+.codeblock pre {
+  padding-top: 36px;
+}
+.codeblock .copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.codeblock .copy:hover {
+  background: var(--amber-soft);
+  border-color: var(--amber-dim);
+  color: var(--amber);
+}
+.codeblock .copy.ok {
+  background: var(--amber-soft);
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+/* CALLOUTS */
+.callout {
+  border-left: 2px solid var(--amber);
+  padding: 16px 20px;
+  margin: 0 0 24px;
+  background: var(--amber-soft);
+  border-radius: 0 4px 4px 0;
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout.warn {
+  border-left-color: var(--rust);
+  background: rgba(217, 119, 87, 0.08);
+}
+.callout.muted {
+  border-left-color: var(--ink-dim);
+  background: var(--bg-soft);
+}
+.callout .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+  margin-bottom: 8px;
+  display: block;
+}
+.callout.warn .label { color: var(--rust); }
+.callout.muted .label { color: var(--ink-muted); }
+
+/* SECTIONS / DIVIDERS */
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 48px 0;
+}
+
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* HUB CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin: 0 0 64px;
+}
+@media (min-width: 720px) {
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+}
+.card {
+  display: block;
+  background: var(--bg);
+  padding: 24px 28px;
+  text-decoration: none;
+  border: 0;
+  transition: background 0.15s;
+  color: var(--ink);
+}
+.card:hover {
+  background: var(--bg-soft);
+  border-bottom: 0;
+}
+.card .filename {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: lowercase;
+  letter-spacing: 0;
+  margin-bottom: 6px;
+}
+.card .title {
+  font-family: 'Newsreader', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.card .desc {
+  font-size: 14.5px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+.card .arrow {
+  display: inline;
+  color: var(--amber);
+}
+
+/* SECTION HEADER ON HUB */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 56px 0 12px;
+}
+.section-head .n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+}
+.section-head h2 {
+  margin: 0;
+  font-size: 32px;
+}
+.section-head .count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.section-intro {
+  color: var(--ink-muted);
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 640px;
+}
+
+/* TOC chip row */
+.toc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 32px 0 56px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+.toc-chips a {
+  color: var(--ink-muted);
+  border-bottom: 0;
+  padding: 4px 0;
+  letter-spacing: 0.02em;
+}
+.toc-chips a:hover { color: var(--amber); }
+.toc-chips a .n {
+  color: var(--ink-dim);
+  margin-right: 6px;
+}
+
+/* TABLES */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 24px;
+  font-size: 14.5px;
+}
+th, td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  font-weight: 500;
+  border-bottom-color: var(--line);
+}
+td { color: var(--ink); }
+td code { font-size: 12.5px; }
+
+/* DIAGRAM HOLDERS */
+.diagram {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 32px;
+  margin: 0 0 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.diagram svg { max-width: 100%; height: auto; }
+
+/* STEP / TIMELINE */
+.steps {
+  counter-reset: step;
+  margin: 24px 0 32px;
+  border-left: 1px solid var(--line);
+  padding-left: 0;
+}
+.step {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 32px 36px;
+  margin-left: 20px;
+}
+.step::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: -22px;
+  top: 0;
+  width: 40px;
+  height: 24px;
+  background: var(--bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.05em;
+}
+.step h3 {
+  margin: -4px 0 8px;
+  font-size: 20px;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 96px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer a { color: var(--ink-muted); border-bottom: 0; }
+.footer a:hover { color: var(--amber); }
+
+/* PAGER */
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.pager a {
+  display: block;
+  padding: 16px 20px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: all 0.15s;
+}
+.pager a:hover {
+  background: var(--bg-card);
+  border-color: var(--amber-dim);
+}
+.pager .dir {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+.pager .title {
+  font-family: 'Newsreader', serif;
+  font-size: 16px;
+  color: var(--ink);
+}
+.pager .next { text-align: right; }
+
+/* DEMO BOX FOR EXAMPLES */
+.demo {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin: 0 0 32px;
+  overflow: hidden;
+}
+.demo-head {
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  justify-content: space-between;
+}
+.demo-head .role { color: var(--amber); }
+.demo-body { padding: 20px 24px; }
+.demo-body p:last-child { margin-bottom: 0; }
+.demo-msg {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* TAGS */
+.tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--bg-soft);
+  color: var(--ink-muted);
+  border: 1px solid var(--line);
+  margin-right: 6px;
+}
+.tag.amber { color: var(--amber); border-color: var(--amber-dim); background: var(--amber-soft); }
+.tag.rust { color: var(--rust); border-color: rgba(217, 119, 87, 0.3); background: rgba(217, 119, 87, 0.08); }
+.tag.moss { color: var(--moss); border-color: rgba(122, 150, 105, 0.3); background: rgba(122, 150, 105, 0.08); }
+
+/* TWO COL */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin: 0 0 32px;
+}
+@media (min-width: 720px) {
+  .two-col { grid-template-columns: 1fr 1fr; }
+}
+.col-card {
+  padding: 20px 24px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.col-card h4 { margin-top: 0; }
+
+::selection { background: var(--amber); color: var(--bg); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="topnav">
+<span class="crumbs">
+<a href="index.html">← index</a>
+<span class="sep">·</span>
+<span class="chip"><span class="num">05</span><span>step 1</span></span>
+</span>
+<span>5 of 15</span>
+</nav>
+
+<header>
+  <span class="section-num">Build · step 01 · ~15 min</span>
+  <h1>Write your <em>AGENTS.md</em></h1>
+  <p class="lede">The single highest-leverage thing you can do this week. One file, fifteen minutes, and you stop typing "use Drizzle, not Prisma" into every conversation for the rest of the year. This is the boring file. Build it first.</p>
+</header>
+
+<h2>What it is</h2>
+<p><code>AGENTS.md</code> is a community-standard markdown file in the root of a repo that AI coding tools read automatically. It is the equivalent of a README, but for agents — house rules, stack details, "never do X." OpenAI Codex, OpenCode, Cursor, Amp, Factory, and Jules all read it natively. GitHub Copilot recognizes both <code>AGENTS.md</code> and <code>.github/copilot-instructions.md</code>. Claude Code falls back to it after looking for <code>CLAUDE.md</code>.</p>
+
+<p>One file. Many consumers. That is the whole pitch.</p>
+
+<h2>The three places it lives</h2>
+
+<div class="cards cards-2" style="margin-top:24px">
+  <div class="card">
+    <div class="filename">~/.config/opencode/AGENTS.md  ·  global</div>
+    <div class="title">Your personal defaults</div>
+    <div class="desc">Things true for you across every project. Language preferences, code style you always want, "never use force-push," tools you prefer (rg, httpie). Not committed. Read by every OpenCode session on your machine.</div>
+  </div>
+  <div class="card">
+    <div class="filename">./AGENTS.md  ·  project root</div>
+    <div class="title">Project conventions</div>
+    <div class="desc">Stack, exact commands (test, build, deploy), house style specific to this repo, domain glossary, gotchas. Committed and reviewed. Read by every tool that opens this repo.</div>
+  </div>
+</div>
+
+<div class="cards" style="margin-top:16px">
+  <div class="card">
+    <div class="filename">.github/instructions/&lt;name&gt;.instructions.md  ·  scoped</div>
+    <div class="title">Path-specific overrides (Copilot)</div>
+    <div class="desc">A frontmatter <code>applyTo:</code> glob targets a subdirectory or language. "For <code>scripts/**/*.py</code>, use uv and ruff." The rule lives only where it applies. OpenCode supports the same idea via per-directory <code>AGENTS.md</code>.</div>
+  </div>
+</div>
+
+<h2>The personal global file</h2>
+<p>Start here. Put your unconditional preferences. Save to <code>~/.config/opencode/AGENTS.md</code> (and symlink or copy to <code>~/.claude/CLAUDE.md</code> if you also use Claude Code).</p>
+
+<div class="codeblock">
+<div class="lang">~/.config/opencode/AGENTS.md</div>
+<pre><code># Personal engineering standards
+
+## Languages &amp; defaults
+- Primary: TypeScript (strict mode, no `any`). Python 3.12+ via uv, ruff, mypy --strict.
+- Web: prefer Vite + React + TanStack Query. Avoid Next.js unless asked.
+- Servers: Fastify (Node) or FastAPI (Python). Not Express.
+- DB: Postgres + Drizzle (TS) or SQLAlchemy 2.x (Python). Migrations via the
+  repo's existing tool — never improvise a new one.
+
+## Code style (non-negotiable)
+- Functions over classes unless state demands it.
+- Early returns; no nested `else` after `return`.
+- Names: verbs for functions, nouns for data, no abbreviations.
+- Comments explain *why*, never *what*.
+- No emoji in code, commits, or PR titles.
+
+## Testing
+- Tests first for non-trivial changes. State explicitly when doing TDD.
+- Use the project's existing framework. Don't introduce new ones.
+- "Done" = tests pass, types pass, lint passes, change reviewed.
+
+## Git workflow
+- One logical change per commit. Conventional Commits: `feat(scope): summary`.
+- Never `git push --force` to shared branches.
+- Never commit secrets, .env files, or large binaries.
+- PR titles in imperative mood. Bodies: Why / What / How tested.
+
+## When unsure
+- Read the codebase first; match existing patterns.
+- Ask before adding a dependency.
+- Ask before refactors wider than 5 files.
+
+## Never want
+- ORM "auto-magic" (Active Record style). Be explicit.
+- `console.log` left in committed code.
+- Catch-and-ignore exception handlers.
+- TODO comments without an issue number.
+
+## Tool preferences
+- Search: `rg`, not `grep`.
+- HTTP: `httpie` or `curl`.
+- Editor: VS Code; respect `.editorconfig`.
+</code></pre>
+</div>
+
+<div class="callout">
+  <span class="label">trim aggressively</span>
+  <p>Resist the urge to write a 5000-word manifesto. Every line in this file rides at the top of every agent's context window. Make each line earn its space. If you wouldn't repeat a rule to a new teammate on day one, it doesn't belong here yet.</p>
+</div>
+
+<h2>The project-root file</h2>
+<p>Make this file <em>actionable</em>. The first time a contributor (human or agent) opens the repo, this file should answer: "how do I run this, how do I test it, what's weird about it."</p>
+
+<div class="codeblock">
+<div class="lang">./AGENTS.md  · in the project root</div>
+<pre><code># Project: &lt;name&gt;
+
+## What this is
+One paragraph: who uses this, what it does, where it deploys.
+
+## Stack
+- Runtime: Node 22 LTS / Python 3.12
+- Framework: &lt;exact versions, from package.json or pyproject.toml&gt;
+- DB: Postgres 16; schema in `db/schema.ts`
+- Deploy: Fly.io via `fly deploy`; staging on every PR
+
+## How to run
+```bash
+pnpm install
+pnpm dev         # localhost:5173
+pnpm test        # vitest watch
+pnpm test:ci     # one-shot, coverage
+pnpm lint        # eslint + prettier check
+pnpm typecheck   # tsc --noEmit
+```
+
+## House conventions
+- Server in `src/server/`, client in `src/client/`, shared types in `src/shared/`.
+- New routes go in `src/server/routes/&lt;feature&gt;/` with
+  `route.ts`, `handler.ts`, `schema.ts`.
+- API contracts: zod schemas in `schema.ts`. Never hand-written types.
+
+## Testing policy
+- Every route handler has an integration test in `__tests__/integration/`.
+- Snapshot tests: forbidden.
+- Coverage threshold: 70% lines (enforced in CI).
+
+## Build / deploy gotchas
+- `migrate` step must run *before* `build` (CI does this; local devs forget).
+- `DATABASE_URL` must be the *pooled* URL, not the direct one.
+
+## Domain glossary
+- "Account" = billing entity, has many Users.
+- "Workspace" = collaboration unit, has many Accounts. Yes, that's confusing;
+  ship code matching the docs, not your intuition.
+
+## Subagent guidance
+- @reviewer: run `pnpm test:ci &amp;&amp; pnpm lint &amp;&amp; pnpm typecheck`, report.
+- @docs-writer: update README and CHANGELOG when public API changes.
+- @explorer: read-only; produce findings markdown in `docs/notes/`.
+
+## Where things live
+- ADRs: `docs/adr/NNNN-title.md` (MADR template).
+- API docs: auto-generated to `docs/api/` by `pnpm docs`.
+- Runbooks: `docs/ops/`.
+</code></pre>
+</div>
+
+<h2>Path-specific overrides</h2>
+<p>For monorepos or polyglot projects, scope rules to where they apply. With Copilot, a file in <code>.github/instructions/</code> with frontmatter:</p>
+
+<div class="codeblock">
+<div class="lang">.github/instructions/python.instructions.md</div>
+<pre><code>---
+applyTo: "scripts/**/*.py"
+---
+- Python 3.12. Invoke via `uv run`.
+- Type hints required. `mypy --strict` must pass.
+- Use `pathlib`, not `os.path`.
+- Argument parsing: `typer`, not `argparse`.
+</code></pre>
+</div>
+
+<p>OpenCode supports the same scoping by dropping <code>AGENTS.md</code> in any subdirectory; it overrides the root file for paths within that subtree.</p>
+
+<h2>What to leave out</h2>
+
+<table>
+  <thead><tr><th>Belongs in AGENTS.md</th><th>Doesn't</th></tr></thead>
+  <tbody>
+    <tr><td>Stack versions, exact commands</td><td>Project description that belongs in README</td></tr>
+    <tr><td>"Always do X" / "Never do Y" rules</td><td>One-off task descriptions (use SPEC.md)</td></tr>
+    <tr><td>Naming conventions, file layout</td><td>The contents of the codebase</td></tr>
+    <tr><td>Domain glossary terms an outsider wouldn't know</td><td>General programming wisdom</td></tr>
+    <tr><td>Gotchas the agent will keep hitting</td><td>Aspirational rules nobody enforces</td></tr>
+  </tbody>
+</table>
+
+<h2>Verify it loads</h2>
+<p>After saving, open a new session in your tool and ask: <em>"What conventions does this repo expect? Quote the line from AGENTS.md that mentions migrations."</em></p>
+<p>If it quotes the line, you're loaded. If it can't, you've put the file in the wrong place — check the next step.</p>
+
+<h2>Maintenance discipline</h2>
+<ul>
+  <li><strong>Every time you correct an agent twice on the same thing, add a line.</strong> Two corrections is the signal.</li>
+  <li><strong>Every time you change the stack, update the file in the same PR.</strong> Treat it as code.</li>
+  <li><strong>Re-read it once a month.</strong> Things you no longer enforce drift to the bottom. Cut them.</li>
+  <li><strong>Keep it under one screen of relevant content per section.</strong> Past that, you're competing with the model's attention budget.</li>
+</ul>
+
+<div class="callout warn">
+  <span class="label">what this won't do</span>
+  <p>AGENTS.md is suggestions, not enforcement. The model will violate it sometimes. The fix isn't to add ten more lines explaining the rule; it's to add a verifier — a lint rule, a test, a CI check. Rules in AGENTS.md handle the long tail; verifiers handle the things you can't tolerate at all.</p>
+</div>
+
+<nav class="pager">
+<a href="04-patterns.html"><div class="dir">← previous</div><div class="title">The four patterns worth knowing</div></a>
+<a href="06-step-copilot.html" class="next"><div class="dir">next →</div><div class="title">Step 2 — Wire up Copilot, OpenCode, Claude Code</div></a>
+</nav>
+<footer class="footer">
+<span>Personal AI agent orchestration · 2026</span>
+<span><a href="index.html">back to index</a></span>
+</footer>
+</div>
+
+<script>
+document.querySelectorAll('.codeblock').forEach(function(block) {
+  var btn = document.createElement('button');
+  btn.className = 'copy';
+  btn.textContent = 'copy';
+  block.appendChild(btn);
+  btn.addEventListener('click', function() {
+    var code = block.querySelector('pre code') || block.querySelector('pre');
+    navigator.clipboard.writeText(code.innerText).then(function() {
+      btn.textContent = 'copied';
+      btn.classList.add('ok');
+      setTimeout(function() { btn.textContent = 'copy'; btn.classList.remove('ok'); }, 1400);
+    });
+  });
+});
+</script>
+
+</body>
+</html>
