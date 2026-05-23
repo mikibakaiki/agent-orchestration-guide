@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Step 3 — Build a reviewer agent with teeth</title>
+<title>404 — page not found</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -715,15 +715,12 @@ td code { font-size: 12.5px; }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap wrap-wide">
+
 <nav class="topnav">
-<span class="crumbs">
-<a href="index.html">← index</a>
-<span class="sep">·</span>
-<span class="chip"><span class="num">07</span><span>step 3</span></span>
-</span>
+<span class="crumbs"><a href="index.html">← index</a></span>
 <details class="chapter-nav">
-<summary>7 of 15<span class="caret">▼</span></summary>
+<summary>15 chapters<span class="caret">▼</span></summary>
 <div class="menu">
 <a class="is-home" href="index.html"><span class="mnum">◆</span><span>Index — the hub</span></a>
 <div class="grp">Theory</div>
@@ -734,7 +731,7 @@ td code { font-size: 12.5px; }
 <div class="grp">Build</div>
 <a class="" href="05-step-agents-md.html"><span class="mnum">05</span><span>Step 1 — Write your AGENTS.md</span></a>
 <a class="" href="06-step-copilot.html"><span class="mnum">06</span><span>Step 2 — Wire up Copilot, OpenCode, Claude Code</span></a>
-<a class="is-current" href="07-step-reviewer.html"><span class="mnum">07</span><span>Step 3 — Build a reviewer agent with teeth</span></a>
+<a class="" href="07-step-reviewer.html"><span class="mnum">07</span><span>Step 3 — Build a reviewer agent with teeth</span></a>
 <a class="" href="08-step-explorer-docs.html"><span class="mnum">08</span><span>Step 4 — Add explorer & docs-writer agents</span></a>
 <a class="" href="09-step-worktrees.html"><span class="mnum">09</span><span>Step 5 — Git worktrees for parallel work</span></a>
 <a class="" href="10-step-hooks.html"><span class="mnum">10</span><span>Step 6 — Hooks, slash commands, auto-docs</span></a>
@@ -749,206 +746,41 @@ td code { font-size: 12.5px; }
 </details>
 </nav>
 
-<header>
-  <span class="section-num">Build · step 03 · ~20 min</span>
-  <h1>Build a reviewer agent with <em>teeth</em></h1>
-  <p class="lede">The single highest-ROI subagent. Runs in its own context window. Executes — does not read. Returns structured failures. If you only build one agent, build this one.</p>
+<header style="margin-top:80px">
+  <span class="section-num">Error · 404</span>
+  <h1>This page took a <em>fresh context window</em> a little too literally.</h1>
+  <p class="lede">Whatever you were looking for isn't here — bad link, typo, or a page that never existed. No state was preserved. Let's re-orient.</p>
 </header>
 
-<h2>What "with teeth" means</h2>
-<p>A reviewer agent that <em>reads code and says "looks good"</em> is theater. A reviewer agent that <em>runs the test suite, the linter, and the typechecker</em> and reports their structured output is a real Reflexion-style verifier. The difference is whether the agent can execute commands.</p>
-
-<div class="diagram">
-<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" role="img">
-  <!-- bad reviewer -->
-  <rect x="40" y="30" width="280" height="170" fill="#16161c" stroke="#d97757"/>
-  <text x="180" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#d97757">WITHOUT TEETH</text>
-  <text x="180" y="85" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="18" fill="#e8e3d8">theater</text>
-  <line x1="60" y1="100" x2="300" y2="100" stroke="#25232b" stroke-width="1"/>
-  <text x="180" y="125" text-anchor="middle" font-family="Newsreader" font-size="13" fill="#a39e92">reads the diff</text>
-  <text x="180" y="145" text-anchor="middle" font-family="Newsreader" font-size="13" fill="#a39e92">writes opinions</text>
-  <text x="180" y="165" text-anchor="middle" font-family="Newsreader" font-size="13" fill="#a39e92">declares "LGTM"</text>
-  <text x="180" y="190" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#d97757">→ ships your bug</text>
-
-  <!-- good reviewer -->
-  <rect x="380" y="30" width="280" height="170" fill="#16161c" stroke="#7a9669"/>
-  <text x="520" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#7a9669">WITH TEETH</text>
-  <text x="520" y="85" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="18" fill="#e8e3d8">verifier</text>
-  <line x1="400" y1="100" x2="640" y2="100" stroke="#25232b" stroke-width="1"/>
-  <text x="520" y="125" text-anchor="middle" font-family="Newsreader" font-size="13" fill="#a39e92">runs pnpm test, lint, types</text>
-  <text x="520" y="145" text-anchor="middle" font-family="Newsreader" font-size="13" fill="#a39e92">captures stderr</text>
-  <text x="520" y="165" text-anchor="middle" font-family="Newsreader" font-size="13" fill="#a39e92">reports file:line failures</text>
-  <text x="520" y="190" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7a9669">→ catches what you missed</text>
-</svg>
+<div class="callout">
+  <span class="label">where to go</span>
+  <p>Use the <strong>chapter dropdown</strong> in the top-right to jump anywhere, or head back to <a href="index.html">the index</a>. If you got here from a link inside the guide, that's a bug worth knowing about.</p>
 </div>
 
-<h2>The OpenCode config</h2>
-<p>Save this as <code>~/.config/opencode/agents/reviewer.md</code>. The filename is the agent name; you'll invoke it as <code>@reviewer</code>.</p>
-
-<div class="codeblock">
-<div class="lang">~/.config/opencode/agents/reviewer.md</div>
-<pre><code>---
-description: Runs tests, lint, and typecheck. Reports failures with file:line precision.
-mode: subagent
-model: anthropic/claude-haiku-4-5
-temperature: 0.1
-tools:
-  bash: true
-  read: true
-  write: false
-  edit: false
-permission:
-  bash:
-    "pnpm test*": allow
-    "pnpm lint*": allow
-    "pnpm typecheck*": allow
-    "npm test*": allow
-    "uv run pytest*": allow
-    "ruff check*": allow
-    "mypy*": allow
-    "*": deny
----
-You are a code reviewer. You do not modify code. Your job:
-
-1. Detect the project's verification commands from AGENTS.md or package.json.
-   Common ones: `pnpm test:ci`, `pnpm lint`, `pnpm typecheck`, `uv run pytest`,
-   `ruff check`, `mypy --strict`.
-
-2. Run them in this order, capturing full output:
-   a. Typecheck (cheapest, catches most)
-   b. Lint
-   c. Tests
-
-3. Emit a structured report in this exact format:
-
-   ```
-   ## Reviewer report
-
-   - [x|✗] typecheck — &lt;one-line summary&gt;
-   - [x|✗] lint — &lt;one-line summary&gt;
-   - [x|✗] tests — &lt;one-line summary&gt;
-
-   ### Failures
-
-   1. &lt;file&gt;:&lt;line&gt; — &lt;the exact error&gt;
-      hypothesis: &lt;one-line guess at the root cause&gt;
-
-   2. ...
-   ```
-
-4. Do NOT modify code. Do NOT suggest patches.
-   Just describe what is broken, where, and your single best hypothesis.
-
-5. If everything passes, say so in one sentence and exit.
-
-6. If a command isn't available, say so explicitly — do not pretend it passed.</code></pre>
+<h2 style="margin-top:48px">Quick links</h2>
+<div class="cards cards-2">
+  <a class="card" href="index.html">
+    <div class="filename">index.html</div>
+    <div class="title">The hub <span class="arrow">→</span></div>
+    <div class="desc">Full table of contents and how to read the guide.</div>
+  </a>
+  <a class="card" href="01-context-rot.html">
+    <div class="filename">01-context-rot.html</div>
+    <div class="title">Start at the beginning <span class="arrow">→</span></div>
+    <div class="desc">Context rot and why fresh windows matter — the foundation for everything else.</div>
+  </a>
+  <a class="card" href="05-step-agents-md.html">
+    <div class="filename">05-step-agents-md.html</div>
+    <div class="title">Jump to the build <span class="arrow">→</span></div>
+    <div class="desc">Write your AGENTS.md — the single highest-leverage step.</div>
+  </a>
+  <a class="card" href="11-example-simple.html">
+    <div class="filename">11-example-simple.html</div>
+    <div class="title">See it in action <span class="arrow">→</span></div>
+    <div class="desc">A 10-minute bug fix, the right way. The smallest useful loop.</div>
+  </a>
 </div>
 
-<h2>Reading the config, line by line</h2>
-
-<div class="two-col">
-  <div class="col-card">
-    <h4>mode: subagent</h4>
-    <p>Tells OpenCode this runs in its own context window when invoked from another agent. Fresh attention budget every call.</p>
-  </div>
-  <div class="col-card">
-    <h4>model: haiku-4-5</h4>
-    <p>Cheap and fast — the work is mostly running commands and reading their output. Reasoning quality is rarely the bottleneck here.</p>
-  </div>
-  <div class="col-card">
-    <h4>temperature: 0.1</h4>
-    <p>Near-deterministic. We want consistent, factual reporting — not "creative" interpretations of stack traces.</p>
-  </div>
-  <div class="col-card">
-    <h4>tools: bash, read</h4>
-    <p>Bash to execute commands. Read to look at source when explaining errors. <em>Write and edit are explicitly off.</em> The reviewer can't fix; only report.</p>
-  </div>
-</div>
-
-<div class="col-card" style="margin-bottom: 32px;">
-  <h4>permission allow-list, then deny-all</h4>
-  <p>The most important block. Bash <em>only</em> for the specific verification commands. Everything else is denied. This is not paranoia — this is what lets you say <code>tools: bash: true</code> without it being equivalent to handing the agent a shell. If the agent tries <code>rm -rf</code> or <code>curl</code>-to-anywhere, it's blocked.</p>
-</div>
-
-<h2>Using it</h2>
-
-<p>From the main OpenCode session, after the implementer makes a change:</p>
-
-<div class="codeblock">
-<div class="lang">main session prompt</div>
-<pre><code>I've finished the auth refactor. Hand it to @reviewer.</code></pre>
-</div>
-
-<p>The main agent invokes the reviewer subagent in a fresh window. The reviewer runs the commands, returns its structured report, and the main agent reads it. Crucially, the main agent's window doesn't pay for the test output — only the summary.</p>
-
-<h2>What the report looks like in practice</h2>
-
-<div class="demo">
-  <div class="demo-head"><span class="role">@reviewer</span><span>haiku-4-5 · 2.4s · 1,200 tokens</span></div>
-  <div class="demo-body">
-    <div class="demo-msg">## Reviewer report
-
-- ✓ typecheck — clean
-- ✗ lint — 2 errors in src/server/routes/auth/
-- ✗ tests — 1 failing in __tests__/integration/auth.test.ts
-
-### Failures
-
-1. src/server/routes/auth/handler.ts:42 — '_userId' is declared but never read (TS6133)
-   hypothesis: leftover from earlier draft; remove the parameter or prefix with underscore consistently.
-
-2. __tests__/integration/auth.test.ts:88 — expected status 401, received 500
-   hypothesis: the new error handler is throwing before the auth middleware fires; likely missing await on `validateToken()` in handler.ts:31.</div>
-  </div>
-</div>
-
-<p>The hypothesis line is the part the model is uniquely good at — it can read stack traces and connect them to recent diffs. Don't trust the hypothesis blindly; do trust the file:line.</p>
-
-<h2>The Claude Code equivalent</h2>
-<p>Claude Code uses <code>.claude/agents/</code> for subagents with a similar YAML frontmatter. The shape:</p>
-
-<div class="codeblock">
-<div class="lang">.claude/agents/reviewer.md</div>
-<pre><code>---
-name: reviewer
-description: Runs project verification (tests, lint, typecheck) and reports failures.
-tools: Bash, Read
----
-
-[same body as above]</code></pre>
-</div>
-
-<p>Invocation is similar — from the main session, <code>Use the reviewer agent to check this.</code></p>
-
-<h2>Common pitfalls</h2>
-
-<ul>
-  <li><strong>Leaving <code>edit: true</code> on.</strong> The reviewer will "helpfully" fix things, defeating the point. The implementer fixes; the reviewer reports.</li>
-  <li><strong>Permission allow-list too broad.</strong> If you allow <code>"*": allow</code> for bash, you've made the reviewer a shell. Whitelist <em>specific commands</em>.</li>
-  <li><strong>No mention of AGENTS.md.</strong> The reviewer needs to know where to look for the verification commands. Either reference <code>AGENTS.md</code> in the prompt or pin commands explicitly (as in the template above).</li>
-  <li><strong>Tone too friendly.</strong> "Looks great!" reports aren't useful. The prompt above forces a structured format because free-form reviews from a chatty model are not actionable.</li>
-  <li><strong>Forgetting to make tests deterministic.</strong> If your tests are flaky, the reviewer will flap. Fix the flakes first.</li>
-</ul>
-
-<h2>One harder variant: an "independent" reviewer</h2>
-<p>Anthropic's Claude Code best practices note: "Ensuring independent verification by sub-agents helps avoid overfitting to tests." The pattern: have a <em>second</em> reviewer that does <em>not</em> run the test suite, but instead reads the diff and the spec, and answers "does this diff actually implement what the spec asked for?"</p>
-
-<p>It's a higher-variance check (no ground-truth signal), so use it only on diffs you want to be careful about — and don't trust the result as much as the test-runner's. But it catches a class of failure the test-runner can't: <em>"the tests pass because the agent wrote tests that match its broken implementation."</em></p>
-
-<h2>What this earned you</h2>
-<ul>
-  <li>A fresh context window for verification, every time. The reviewer doesn't accumulate session noise.</li>
-  <li>A structured report you can read in five seconds.</li>
-  <li>A real external verifier — the test suite — driving the loop.</li>
-  <li>An explicit "implementer fixes, reviewer reports" division that prevents the model from cheerfully editing tests to pass.</li>
-</ul>
-
-<p>You will use this agent dozens of times a week. It's the workhorse.</p>
-
-<nav class="pager">
-<a href="06-step-copilot.html"><div class="dir">← previous</div><div class="title">Step 2 — Wire up Copilot, OpenCode, Claude Code</div></a>
-<a href="08-step-explorer-docs.html" class="next"><div class="dir">next →</div><div class="title">Step 4 — Add explorer & docs-writer agents</div></a>
-</nav>
 <footer class="footer">
 <span>Personal AI agent orchestration · 2026</span>
 <span><a href="index.html">back to index</a></span>

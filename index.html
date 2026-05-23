@@ -91,6 +91,118 @@ body {
   color: var(--amber);
 }
 
+/* CHAPTER DROPDOWN */
+.chapter-nav {
+  position: relative;
+}
+.chapter-nav > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-soft);
+  transition: all 0.15s;
+  user-select: none;
+}
+.chapter-nav > summary::-webkit-details-marker { display: none; }
+.chapter-nav > summary:hover {
+  color: var(--amber);
+  border-color: var(--amber-dim);
+}
+.chapter-nav > summary .caret {
+  font-size: 9px;
+  transition: transform 0.18s ease;
+  color: var(--ink-faint);
+}
+.chapter-nav[open] > summary {
+  color: var(--amber);
+  border-color: var(--amber-dim);
+  background: var(--amber-soft);
+}
+.chapter-nav[open] > summary .caret { transform: rotate(180deg); }
+.chapter-nav .menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  width: 340px;
+  max-width: 78vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(245,166,35,0.04);
+  padding: 6px;
+  animation: menuIn 0.16s ease;
+}
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chapter-nav .menu .grp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 12px 12px 6px;
+}
+.chapter-nav .menu .grp:first-child { padding-top: 6px; }
+.chapter-nav .menu a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 0;
+  text-decoration: none;
+  color: var(--ink-muted);
+  font-family: 'Newsreader', serif;
+  font-size: 14.5px;
+  line-height: 1.35;
+  transition: background 0.12s, color 0.12s;
+}
+.chapter-nav .menu a:hover {
+  background: var(--bg-soft);
+  color: var(--ink);
+}
+.chapter-nav .menu a .mnum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+  flex: 0 0 auto;
+  width: 22px;
+  letter-spacing: 0.02em;
+  padding-top: 2px;
+}
+.chapter-nav .menu a.is-current {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.chapter-nav .menu a.is-current .mnum { color: var(--amber); }
+.chapter-nav .menu a.is-current::after {
+  content: '● here';
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+  align-self: center;
+  white-space: nowrap;
+}
+.chapter-nav .menu a.is-home .mnum { color: var(--ink-dim); }
+
 /* TYPOGRAPHY */
 h1, h2, h3, h4 {
   font-family: 'Instrument Serif', 'Newsreader', Georgia, serif;
@@ -606,7 +718,31 @@ td code { font-size: 12.5px; }
 <div class="wrap wrap-wide">
 <nav class="topnav">
 <span class="crumbs"><span>Personal AI agent orchestration</span></span>
-<span>15 chapters · standalone HTML</span>
+<details class="chapter-nav">
+<summary>15 chapters<span class="caret">▼</span></summary>
+<div class="menu">
+<a class="is-home is-current" href="index.html"><span class="mnum">◆</span><span>Index — the hub</span></a>
+<div class="grp">Theory</div>
+<a class="" href="01-context-rot.html"><span class="mnum">01</span><span>Context rot, & why fresh context windows matter</span></a>
+<a class="" href="02-context-engineering.html"><span class="mnum">02</span><span>Context engineering: the operating system</span></a>
+<a class="" href="03-when-orchestration-helps.html"><span class="mnum">03</span><span>When orchestration helps — and when it hurts</span></a>
+<a class="" href="04-patterns.html"><span class="mnum">04</span><span>The four patterns worth knowing</span></a>
+<div class="grp">Build</div>
+<a class="" href="05-step-agents-md.html"><span class="mnum">05</span><span>Step 1 — Write your AGENTS.md</span></a>
+<a class="" href="06-step-copilot.html"><span class="mnum">06</span><span>Step 2 — Wire up Copilot, OpenCode, Claude Code</span></a>
+<a class="" href="07-step-reviewer.html"><span class="mnum">07</span><span>Step 3 — Build a reviewer agent with teeth</span></a>
+<a class="" href="08-step-explorer-docs.html"><span class="mnum">08</span><span>Step 4 — Add explorer & docs-writer agents</span></a>
+<a class="" href="09-step-worktrees.html"><span class="mnum">09</span><span>Step 5 — Git worktrees for parallel work</span></a>
+<a class="" href="10-step-hooks.html"><span class="mnum">10</span><span>Step 6 — Hooks, slash commands, auto-docs</span></a>
+<div class="grp">Examples</div>
+<a class="" href="11-example-simple.html"><span class="mnum">11</span><span>Example A — A 10-minute bug fix, the right way</span></a>
+<a class="" href="12-example-medium.html"><span class="mnum">12</span><span>Example B — Ship a feature with TDD + review + docs</span></a>
+<a class="" href="13-example-parallel.html"><span class="mnum">13</span><span>Example C — Two features in parallel with worktrees</span></a>
+<a class="" href="14-example-ralph.html"><span class="mnum">14</span><span>Example D — A sandboxed Ralph loop overnight</span></a>
+<div class="grp">Operate</div>
+<a class="" href="15-operate.html"><span class="mnum">15</span><span>Operate it — evals, failure modes, kill criterion</span></a>
+</div>
+</details>
 </nav>
 
 <header>
@@ -786,6 +922,25 @@ document.querySelectorAll('.codeblock').forEach(function(block) {
     });
   });
 });
+
+// Chapter dropdown: close on outside click or Escape.
+(function() {
+  var nav = document.querySelector('.chapter-nav');
+  if (!nav) return;
+  document.addEventListener('click', function(e) {
+    if (nav.open && !nav.contains(e.target)) nav.open = false;
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && nav.open) nav.open = false;
+  });
+  // Scroll the current chapter into view when the menu opens.
+  nav.addEventListener('toggle', function() {
+    if (nav.open) {
+      var cur = nav.querySelector('.menu a.is-current');
+      if (cur) cur.scrollIntoView({ block: 'nearest' });
+    }
+  });
+})();
 </script>
 
 </body>
