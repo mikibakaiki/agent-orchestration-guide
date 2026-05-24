@@ -40,7 +40,7 @@ The through-line: **your repetition problem is a context-engineering problem, no
 
 **Field notes** *(standalone evaluations, not part of the numbered sequence)*
 - `eval-superpowers` — Evaluating [obra/superpowers](https://github.com/obra/superpowers): a skills-first methodology, when to adopt it, when to strip it to two ideas
-- `eval-colleague` — Evaluating a colleague's OpenCode agents: an eleven-agent orchestrator-worker pipeline, file by file
+- `eval-colleague` — Evaluating a [colleague's OpenCode agents](https://github.com/messuped/dotfiles/tree/main/.config/opencode/agents): an eleven-agent orchestrator-worker pipeline, file by file
 - `skills-vs-agents` — The architectural fork: a skill informs one mind, an agent brings a fresh one. Pros, cons, and where each belongs
 - `your-stack` — Build your own, best of both: full copy-able OpenCode config fusing all three approaches, with a week-by-week growth path
 
@@ -72,7 +72,7 @@ python3 -m http.server 8000
 
 1. Push these files to the **root** of a public repo (keep them flat — the inter-page links are relative).
 2. **Settings → Pages → Build and deployment → Deploy from a branch**, pick `main` / `/ (root)`, save.
-3. Wait a minute, then visit `https://YOUR_USERNAME.github.io/agent-orchestration-guide/`.
+3. Wait a minute, then visit `https://mikibakaiki.github.io/agent-orchestration-guide/`.
 
 ## A note on sourcing
 
