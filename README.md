@@ -1,6 +1,6 @@
 # Personal AI Agent Orchestration
 
-A pragmatic, skeptical guide to running AI coding agents as a solo developer — built as 16 standalone HTML pages you actually read instead of skim.
+A pragmatic, skeptical guide to running AI coding agents as a solo developer — built as 21 standalone HTML pages you actually read instead of skim: 15 numbered chapters plus four field notes evaluating real-world setups.
 
 **[→ Read the guide](https://YOUR_USERNAME.github.io/agent-orchestration-guide/)**
 
@@ -39,6 +39,12 @@ The through-line: **your repetition problem is a context-engineering problem, no
 **Operate**
 - `15` — Evals, failure modes, and a kill criterion
 
+**Field notes** *(standalone evaluations, not part of the numbered sequence)*
+- `eval-superpowers` — Evaluating [obra/superpowers](https://github.com/obra/superpowers): a skills-first methodology, when to adopt it, when to strip it to two ideas
+- `eval-colleague` — Evaluating a colleague's OpenCode agents: an eleven-agent orchestrator-worker pipeline, file by file
+- `skills-vs-agents` — The architectural fork: a skill informs one mind, an agent brings a fresh one. Pros, cons, and where each belongs
+- `your-stack` — Build your own, best of both: full copy-able OpenCode config fusing all three approaches, with a week-by-week growth path
+
 ## Reading it
 
 Start at `index.html` — it's the hub. Every chapter has a dropdown in the top-right that jumps to any other chapter and shows where you are, plus prev/next links at the bottom.
@@ -46,6 +52,7 @@ Start at `index.html` — it's the hub. Every chapter has a dropdown in the top-
 - **An hour?** Read `01`, do `05`, read `11`.
 - **An afternoon?** Steps `05`–`07`, examples `11`–`12`, skim the theory.
 - **A weekend?** Everything, in order — then set a 90-day reminder to run the kill criterion in `15`.
+- **Evaluating someone else's setup?** Jump straight to the field notes — `skills-vs-agents` first for the concepts, then `your-stack` for a build you can copy.
 
 ## Running it locally
 
