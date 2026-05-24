@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Personal AI agent orchestration — a pragmatic, skeptical guide</title>
+<title>Field note — Evaluating obra/superpowers</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -715,13 +715,17 @@ td code { font-size: 12.5px; }
 </style>
 </head>
 <body>
-<div class="wrap wrap-wide">
+<div class="wrap">
 <nav class="topnav">
-<span class="crumbs"><span>Personal AI agent orchestration</span></span>
+<span class="crumbs">
+<a href="index.html">← index</a>
+<span class="sep">·</span>
+<span class="chip"><span class="num">★</span><span>superpowers</span></span>
+</span>
 <details class="chapter-nav">
-<summary>15 chapters<span class="caret">▼</span></summary>
+<summary>field note<span class="caret">▼</span></summary>
 <div class="menu">
-<a class="is-home is-current" href="index.html"><span class="mnum">◆</span><span>Index — the hub</span></a>
+<a class="is-home" href="index.html"><span class="mnum">◆</span><span>Index — the hub</span></a>
 <div class="grp">Theory</div>
 <a class="" href="01-context-rot.html"><span class="mnum">01</span><span>Context rot, & why fresh context windows matter</span></a>
 <a class="" href="02-context-engineering.html"><span class="mnum">02</span><span>Context engineering: the operating system</span></a>
@@ -742,189 +746,178 @@ td code { font-size: 12.5px; }
 <div class="grp">Operate</div>
 <a class="" href="15-operate.html"><span class="mnum">15</span><span>Operate it — evals, failure modes, kill criterion</span></a>
 <div class="grp">Field notes</div>
-<a class="" href="eval-superpowers.html"><span class="mnum">★</span><span>Evaluating obra/superpowers</span></a>
+<a class="is-current" href="eval-superpowers.html"><span class="mnum">★</span><span>Evaluating obra/superpowers</span></a>
 <a class="" href="eval-colleague.html"><span class="mnum">★</span><span>Evaluating a colleague's OpenCode agents</span></a>
 </div>
 </details>
 </nav>
 
 <header>
-  <h1>Personal AI agent <em>orchestration</em></h1>
-  <p class="lede">A pragmatic, skeptical guide. Fifteen standalone HTML chapters: enough theory to make defensible choices, six concrete build steps for your stack, and four worked examples that go from a ten-minute bug fix to an overnight Ralph loop in a sandbox.</p>
-
-  <div class="callout">
-    <span class="label">the real claim</span>
-    <p>Your repetition problem — re-typing framework, code style, and git workflow into every prompt — is a <em>context-engineering</em> problem, not an agent problem. One good <code>AGENTS.md</code> solves more of it than five named "team-lead" or "architect" agents ever will. Build the boring markdown layer first. Then add agents where you can name the bottleneck they remove.</p>
-  </div>
-
-  <nav class="toc-chips">
-    <a href="#theory"><span class="n">i.</span>Theory · 4</a>
-    <a href="#build"><span class="n">ii.</span>Build · 6</a>
-    <a href="#examples"><span class="n">iii.</span>Examples · 4</a>
-    <a href="#operate"><span class="n">iv.</span>Operate · 1</a>
-  </nav>
+  <span class="section-num">Field note · evaluation</span>
+  <h1>Evaluating <em>obra/superpowers</em></h1>
+  <p class="lede">A skills-and-subagents framework by Jesse Vincent that wraps your coding agent in a mandatory brainstorm → plan → TDD → subagent-execute → review workflow. It is the most complete public expression of the patterns in this guide — and also the clearest case study in their costs. Here's whether it's worth adopting, and when.</p>
 </header>
 
-<section id="theory">
-  <div class="section-head">
-    <span class="n">I.</span>
-    <h2>Theory</h2>
-    <span class="count">4 chapters</span>
-  </div>
-  <p class="section-intro">Why these patterns work, drawn from the actual papers and engineering posts — not the marketing decks. Read these first; they make the rest of the guide make sense, and they tell you when <em>not</em> to add an agent.</p>
-
-  <div class="cards cards-2">
-    <a class="card" href="01-context-rot.html">
-      <div class="filename">01-context-rot.html</div>
-      <div class="title">Context rot &amp; why fresh windows matter <span class="arrow">→</span></div>
-      <div class="desc">Liu et al.'s "lost in the middle," Chroma's 18-model degradation study, and the mechanism behind every pattern in the rest of this guide. Live U-curve visualization.</div>
-    </a>
-    <a class="card" href="02-context-engineering.html">
-      <div class="filename">02-context-engineering.html</div>
-      <div class="title">Context engineering: CPU, RAM, OS <span class="arrow">→</span></div>
-      <div class="desc">Karpathy's analogy and Anthropic's four strategies — Write, Select, Compress, Isolate. The shift from "prompt engineering" to managing what's in the context window.</div>
-    </a>
-    <a class="card" href="03-when-orchestration-helps.html">
-      <div class="filename">03-when-orchestration-helps.html</div>
-      <div class="title">When orchestration helps — and when it hurts <span class="arrow">→</span></div>
-      <div class="desc">Anthropic's 90.2% research-system win, the 15× token cost, and the MAST taxonomy showing 79% of multi-agent failures come from spec and coordination — not the model.</div>
-    </a>
-    <a class="card" href="04-patterns.html">
-      <div class="filename">04-patterns.html</div>
-      <div class="title">The four patterns worth knowing <span class="arrow">→</span></div>
-      <div class="desc">Ralph loop, orchestrator-worker, evaluator-optimizer (the reviewer loop), and routing. What each is for, what each costs, and where the evidence is thin.</div>
-    </a>
-  </div>
-</section>
-
-<section id="build">
-  <div class="section-head">
-    <span class="n">II.</span>
-    <h2>Build</h2>
-    <span class="count">6 steps</span>
-  </div>
-  <p class="section-intro">Six concrete steps for a developer using GitHub Copilot, OpenCode, VS Code, and the Copilot CLI. Each step is one HTML page with copy-able templates. Do them in order. The first one alone — your <code>AGENTS.md</code> — fixes most of the repetition pain.</p>
-
-  <div class="cards">
-    <a class="card" href="05-step-agents-md.html">
-      <div class="filename">05-step-agents-md.html · ~15 min</div>
-      <div class="title">Step 1 — Write your AGENTS.md <span class="arrow">→</span></div>
-      <div class="desc">The standardized cross-tool file. Global personal version + project version + path overrides. Templates you can copy and trim.</div>
-    </a>
-    <a class="card" href="06-step-copilot.html">
-      <div class="filename">06-step-copilot.html · ~10 min</div>
-      <div class="title">Step 2 — Wire it into Copilot, OpenCode, Claude Code <span class="arrow">→</span></div>
-      <div class="desc">Where each tool actually reads from. Symlinks, path-specific instructions, personal-vs-repo precedence, and how to verify it's loading.</div>
-    </a>
-    <a class="card" href="07-step-reviewer.html">
-      <div class="filename">07-step-reviewer.html · ~20 min</div>
-      <div class="title">Step 3 — Build a reviewer agent with teeth <span class="arrow">→</span></div>
-      <div class="desc">The single highest-ROI subagent: runs tests, lint, typecheck in its own context window, returns structured failures. Full OpenCode config.</div>
-    </a>
-    <a class="card" href="08-step-explorer-docs.html">
-      <div class="filename">08-step-explorer-docs.html · ~25 min</div>
-      <div class="title">Step 4 — Add an explorer and a docs-writer <span class="arrow">→</span></div>
-      <div class="desc">Two more agents, both narrow. Explorer is read-only and writes findings to disk. Docs-writer keeps README, CHANGELOG, and ADRs alive.</div>
-    </a>
-    <a class="card" href="09-step-worktrees.html">
-      <div class="filename">09-step-worktrees.html · ~10 min</div>
-      <div class="title">Step 5 — Git worktrees for parallel work <span class="arrow">→</span></div>
-      <div class="desc">Shell helpers (<code>wt</code>, <code>wtrm</code>, <code>wtclean</code>), why worktrees beat branches for agents, and the honest ceiling of two-to-three parallel sessions.</div>
-    </a>
-    <a class="card" href="10-step-hooks.html">
-      <div class="filename">10-step-hooks.html · ~20 min</div>
-      <div class="title">Step 6 — Hooks, slash commands, auto-docs <span class="arrow">→</span></div>
-      <div class="desc">Tie the docs-writer to a post-commit hook. Build slash commands (<code>/verify</code>, <code>/adr</code>) for the things you type twice a day.</div>
-    </a>
-  </div>
-</section>
-
-<section id="examples">
-  <div class="section-head">
-    <span class="n">III.</span>
-    <h2>Examples</h2>
-    <span class="count">4 walkthroughs</span>
-  </div>
-  <p class="section-intro">Same stack, four levels of complexity. Read them in order; each shows the agents in action with annotated turn-by-turn flow, costs, and what would have gone wrong without the structure.</p>
-
-  <div class="cards cards-2">
-    <a class="card" href="11-example-simple.html">
-      <div class="filename">11-example-simple.html · simple</div>
-      <div class="title">A. A 10-minute bug fix, the right way <span class="arrow">→</span></div>
-      <div class="desc">One agent, one reviewer, one commit. The minimum useful loop. Shows how AGENTS.md alone changes the output.</div>
-    </a>
-    <a class="card" href="12-example-medium.html">
-      <div class="filename">12-example-medium.html · medium</div>
-      <div class="title">B. Ship a feature with TDD + review + docs <span class="arrow">→</span></div>
-      <div class="desc">Plan mode → failing tests → implementation → reviewer → docs-writer hook. Three agents, six commits, one merged PR.</div>
-    </a>
-    <a class="card" href="13-example-parallel.html">
-      <div class="filename">13-example-parallel.html · complex</div>
-      <div class="title">C. Two features in parallel with worktrees <span class="arrow">→</span></div>
-      <div class="desc">Two terminals, two worktrees, two agents running in parallel. The merge-conflict story is the lesson.</div>
-    </a>
-    <a class="card" href="14-example-ralph.html">
-      <div class="filename">14-example-ralph.html · advanced</div>
-      <div class="title">D. A sandboxed Ralph loop, overnight <span class="arrow">→</span></div>
-      <div class="desc">A bash <code>while</code> loop, Docker, a hard cap, and the active supervision discipline. What it cost. Where it stuck. What you'd never run on your laptop.</div>
-    </a>
-  </div>
-</section>
-
-<section id="operate">
-  <div class="section-head">
-    <span class="n">IV.</span>
-    <h2>Operate</h2>
-    <span class="count">1 chapter</span>
-  </div>
-  <p class="section-intro">The one page nobody writes. How to know it's working, how to spot the seven common failure modes, and the kill-criterion that keeps your setup from accreting forever.</p>
-
-  <div class="cards">
-    <a class="card" href="15-operate.html">
-      <div class="filename">15-operate.html</div>
-      <div class="title">Evals, failure modes, and a kill criterion <span class="arrow">→</span></div>
-      <div class="desc">A 20-task personal eval suite, the seven failure modes with detection signals, prompt-caching for cost, and a three-month review that asks: is the full stack actually beating Copilot-with-a-good-AGENTS.md?</div>
-    </a>
-  </div>
-</section>
-
-<section id="field-notes">
-  <div class="section-head">
-    <span class="n">★</span>
-    <h2>Field notes</h2>
-    <span class="count">2 evaluations</span>
-  </div>
-  <p class="section-intro">Standalone reviews of real-world agent frameworks and configs, graded against the framework in this guide. Not part of the numbered sequence — read them when you're weighing whether to adopt someone else's setup.</p>
-
-  <div class="cards cards-2">
-    <a class="card" href="eval-superpowers.html">
-      <div class="filename">eval-superpowers.html</div>
-      <div class="title">Evaluating obra/superpowers <span class="arrow">→</span></div>
-      <div class="desc">A complete skills-and-subagents methodology. The most thorough public expression of these patterns — and the clearest case study in their costs. When to adopt it, when to strip it to two ideas.</div>
-    </a>
-    <a class="card" href="eval-colleague.html">
-      <div class="filename">eval-colleague.html</div>
-      <div class="title">Evaluating a colleague's OpenCode agents <span class="arrow">→</span></div>
-      <div class="desc">Eleven agents forming a real orchestrator-worker pipeline — TDD-first, dual A/B critics and reviewers across two models, tight permission rails. File-by-file, what to steal and what to fix.</div>
-    </a>
-  </div>
-</section>
-
-<section>
-  <h2>How to read this</h2>
-  <p>If you have an hour: read <a href="01-context-rot.html">01</a>, do <a href="05-step-agents-md.html">step 1</a>, read <a href="11-example-simple.html">example A</a>. That is the minimum viable version — and for many readers, it will be the maximum useful version.</p>
-  <p>If you have an afternoon: do steps 1–3, read examples A and B, skim the theory.</p>
-  <p>If you have a weekend: everything, in order. Build the full stack. Then read <a href="15-operate.html">15</a> and set a calendar reminder for ninety days from now to evaluate honestly whether it earned its keep.</p>
-</section>
-
-<div class="callout muted" style="margin-top:64px">
-  <span class="label">a warning, up front</span>
-  <p>The published Ralph-loop success stories are almost all <em>greenfield</em> work. The published parallel-agent wins are mostly <em>research breadth-first</em>. The published multi-agent benchmarks are mostly <em>vendor-internal</em>. None of that makes the patterns useless. It does mean you should weight the build steps in this order: <strong>boring file &gt; one good reviewer &gt; worktrees &gt; everything else</strong>.</p>
+<div class="callout muted">
+  <span class="label">what it is, in one paragraph</span>
+  <p>Superpowers is a plugin (Claude Code, Codex, Gemini, OpenCode, Cursor, Copilot CLI) that installs a library of <em>skills</em> — markdown files describing procedures — plus a session-start hook that forces the agent to consult them. The skills encode a full methodology: Socratic brainstorming, worktree isolation, bite-sized planning, subagent-driven execution with two-stage review, and strict RED-GREEN-REFACTOR TDD. The agent is instructed that skills are <strong>mandatory, not suggestions</strong>.</p>
 </div>
 
+<h2>How the "loop" actually works</h2>
+<p>This isn't a Ralph-style <code>while</code> loop. It's a <em>skill-gated state machine</em> the agent walks through, with a subagent dispatched per task. Mapped onto the four patterns from <a href="04-patterns.html">chapter 04</a>:</p>
+
+<div class="steps">
+  <div class="step">
+    <h3>brainstorming — prompt chaining</h3>
+    <p>Before any code, the agent refuses to implement and instead interrogates you to extract a spec, presenting it in chunks small enough to actually read. Output: a saved design document. This is plan-mode with teeth.</p>
+  </div>
+  <div class="step">
+    <h3>using-git-worktrees — isolation</h3>
+    <p>On design approval, it auto-creates a worktree on a new branch, runs setup, verifies a clean test baseline. Exactly the pattern from <a href="09-step-worktrees.html">step 5</a>, automated.</p>
+  </div>
+  <div class="step">
+    <h3>writing-plans — compression</h3>
+    <p>Breaks work into 2–5 minute tasks, each with exact file paths and complete code, written for "an enthusiastic junior engineer with poor taste, no judgement, and an aversion to testing." The plan is the artifact that survives context resets.</p>
+  </div>
+  <div class="step">
+    <h3>subagent-driven-development — orchestrator-worker + evaluator-optimizer</h3>
+    <p>The core loop. A fresh subagent per task implements; then a <em>two-stage review</em> — spec compliance, then code quality — gates progress before the next task. This is the reviewer-with-teeth pattern (<a href="07-step-reviewer.html">step 3</a>) fused with fan-out (<a href="03-when-orchestration-helps.html">chapter 03</a>).</p>
+  </div>
+  <div class="step">
+    <h3>test-driven-development — the verifier</h3>
+    <p>Enforces write-failing-test → watch-it-fail → minimal-code → watch-it-pass → commit. Crucially: <strong>it deletes code written before its test.</strong> The test suite is the ground-truth signal that makes the review loop real rather than theatrical.</p>
+  </div>
+  <div class="step">
+    <h3>requesting-code-review &amp; finishing-a-branch — closing the loop</h3>
+    <p>Reviews against the plan, reports issues by severity, blocks on Critical. Then offers merge / PR / keep / discard and cleans up the worktree.</p>
+  </div>
+</div>
+
+<h2>What it gets genuinely right</h2>
+
+<div class="two-col">
+  <div class="col-card">
+    <h4>Skills are persistent context, done well</h4>
+    <p>This is the <a href="02-context-engineering.html">Write strategy</a> taken seriously. Procedures live in versioned markdown the agent rediscovers, not in a chat history that rots. The session-start hook guarantees they load at the top of the window where attention works.</p>
+  </div>
+  <div class="col-card">
+    <h4>The TDD enforcement is the real unlock</h4>
+    <p>Most "agent review" is theater because there's no ground truth. Superpowers makes the failing test mandatory <em>first</em>, so the reviewer and the subagent loop both have something objective to check against. This is the single most defensible part.</p>
+  </div>
+  <div class="col-card">
+    <h4>Fresh subagent per task</h4>
+    <p>Directly attacks <a href="01-context-rot.html">context rot</a>: each task gets a clean window rather than accumulating an hours-long session. The plan on disk is what carries state across those resets.</p>
+  </div>
+  <div class="col-card">
+    <h4>It's genuinely cross-harness</h4>
+    <p>One methodology installable into Claude Code, Codex, Gemini, OpenCode, Cursor, and Copilot CLI. The skills are portable markdown, which is the right bet — it matches the <code>AGENTS.md</code> portability argument from <a href="06-step-copilot.html">step 2</a>.</p>
+  </div>
+</div>
+
+<h2>The costs, stated plainly</h2>
+
+<table>
+  <thead><tr><th>Cost</th><th>Why it bites</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Heavy process overhead on small tasks</td>
+      <td>The full brainstorm → plan → worktree → subagent → review march is wildly disproportionate for a ten-minute bug fix. <a href="11-example-simple.html">Example A</a> in this guide does that fix with one agent and one reviewer; Superpowers would have you write a design doc first.</td>
+    </tr>
+    <tr>
+      <td>Token multiplication</td>
+      <td>Subagent-per-task plus two-stage review plus TDD re-runs is many context windows per feature. This is the <a href="03-when-orchestration-helps.html">15× token</a> reality in practice. Fine for high-value work; expensive as a default.</td>
+    </tr>
+    <tr>
+      <td>"Mandatory" skills can misfire</td>
+      <td>The hook insists the agent use a skill if one exists. When the skill genuinely fits, great. When your task is a poor match for the encoded procedure, you get ceremony — and the author's own blog describes having to <em>pressure-test</em> agents with Cialdini-style persuasion scenarios to make them comply, which tells you compliance isn't free.</td>
+    </tr>
+    <tr>
+      <td>Opinionated to the point of friction</td>
+      <td>YAGNI, DRY, delete-code-before-tests, strict RED-GREEN. If you disagree with any of these for a given task, you're fighting the framework, not using it.</td>
+    </tr>
+    <tr>
+      <td>Greenfield bias</td>
+      <td>The showcase is building a todo app from scratch. The "write the complete code in the plan" step assumes work decomposable in advance — which brownfield changes with implicit house style often aren't. Same caveat this guide raises about <a href="14-example-ralph.html">Ralph</a>.</td>
+    </tr>
+    <tr>
+      <td>Trust-but-verify the autonomy claim</td>
+      <td>"Claude works autonomously for a couple hours without deviating" is the author's experience on his projects. Treat it as an existence proof, not a guarantee for your codebase. The kill-criterion discipline from <a href="15-operate.html">chapter 15</a> applies.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>How it maps to this guide's framework</h2>
+<p>Superpowers is, in effect, an aggressive packaging of nearly everything here — with the dial turned to maximum. The correspondence is almost one-to-one:</p>
+
+<table>
+  <thead><tr><th>This guide</th><th>Superpowers equivalent</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td>AGENTS.md (step 1)</td><td>Skills library + getting-started hook</td><td>Superpowers goes further — procedural, not just declarative</td></tr>
+    <tr><td>Reviewer with teeth (step 3)</td><td>requesting-code-review + two-stage review</td><td>Equivalent in spirit; theirs is more ceremonious</td></tr>
+    <tr><td>Plan mode (chapter 04)</td><td>brainstorming + writing-plans</td><td>Theirs is mandatory and more structured</td></tr>
+    <tr><td>Worktrees (step 5)</td><td>using-git-worktrees</td><td>Theirs automates the trigger</td></tr>
+    <tr><td>"Don't add role-named agents" (chapter 03)</td><td>Subagents are task-scoped, not role-named</td><td>Aligned — they avoid the anthropomorphism trap</td></tr>
+    <tr><td>Kill criterion (chapter 15)</td><td>—</td><td>Superpowers has no built-in "is this worth it" check; you must add one</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <span class="label">the key alignment</span>
+  <p>Notably, Superpowers does <em>not</em> fall into the team-lead / architect / PO trap this guide warns about. Its subagents are scoped to tasks and gated by a verifier (the tests). That's the correct design, and it's why the framework works as well as it does where it fits.</p>
+</div>
+
+<h2>Is it worth using?</h2>
+
+<div class="two-col">
+  <div class="col-card">
+    <h4>Adopt it if…</h4>
+    <ul>
+      <li>You do substantial greenfield or well-specifiable work</li>
+      <li>You want the methodology decided for you and will follow it</li>
+      <li>You value consistency and traceability over per-task speed</li>
+      <li>The token cost is justified by the value of the output</li>
+      <li>You're new to agentic workflows and want a proven scaffold</li>
+    </ul>
+  </div>
+  <div class="col-card">
+    <h4>Skip it (or strip it down) if…</h4>
+    <ul>
+      <li>Most of your work is small fixes in an existing codebase</li>
+      <li>You already have a lean AGENTS.md + reviewer that works</li>
+      <li>You want to keep token costs minimal</li>
+      <li>You dislike fighting an opinionated process on off-pattern tasks</li>
+      <li>You'd rather understand each piece than adopt a bundle</li>
+    </ul>
+  </div>
+</div>
+
+<h2>The pragmatic recommendation</h2>
+<p>Install it in a throwaway worktree and run one real greenfield task through it end to end. You'll learn more about good agent workflow in one session than from a week of reading — the brainstorming and TDD-enforcement skills especially are worth experiencing even if you don't keep the whole framework.</p>
+
+<p>Then make a deliberate choice. Either adopt it wholesale for the work it fits, or — more likely for a solo dev doing mixed brownfield work — <strong>borrow the two best ideas and leave the ceremony</strong>:</p>
+
+<ol>
+  <li><strong>Mandatory failing-test-first.</strong> Add it to your <code>AGENTS.md</code> as a hard rule. This is the highest-value idea in Superpowers and costs you nothing to adopt.</li>
+  <li><strong>Spec-as-saved-artifact before implementation.</strong> The <code>brainstorming → design doc</code> step is just disciplined plan mode. Steal the discipline; you already have the mechanism (<a href="12-example-medium.html">Example B</a> shows it).</li>
+</ol>
+
+<div class="callout warn">
+  <span class="label">the honest bottom line</span>
+  <p>Superpowers is excellent and over-built for most solo brownfield work — both at once. It's the reference implementation of doing this <em>thoroughly</em>. Run it once to calibrate your taste, keep the TDD-first and spec-first habits, and apply this guide's <a href="15-operate.html">kill criterion</a> before committing to the full process as a daily driver. If the elaborate version doesn't beat your lean AGENTS.md-plus-reviewer setup by a clear margin on your real tasks, keep the lean one.</p>
+</div>
+
+<hr class="rule">
+
+<h2>Sources</h2>
+<ul>
+  <li>obra/superpowers — github.com/obra/superpowers (README, skills library, workflow).</li>
+  <li>Vincent, J., <em>Superpowers: How I'm using coding agents in October 2025</em>, blog.fsck.com/2025/10/09/superpowers — the author's design rationale, the session-start hook, and the subagent pressure-testing story.</li>
+  <li>Cross-referenced against this guide's <a href="03-when-orchestration-helps.html">chapter 03</a> (when orchestration helps), <a href="04-patterns.html">chapter 04</a> (patterns), and <a href="07-step-reviewer.html">step 3</a> (reviewer with teeth).</li>
+</ul>
+
 <nav class="pager">
-<span></span>
-<a href="01-context-rot.html" class="next"><div class="dir">next →</div><div class="title">Context rot, & why fresh context windows matter</div></a>
+<a href="index.html"><div class="dir">← back</div><div class="title">The index</div></a>
+<a href="eval-colleague.html" class="next"><div class="dir">next note →</div><div class="title">Evaluating a colleague's OpenCode agents</div></a>
 </nav>
 <footer class="footer">
 <span>Personal AI agent orchestration · 2026</span>
