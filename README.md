@@ -2,9 +2,8 @@
 
 A pragmatic, skeptical guide to running AI coding agents as a solo developer — built as 21 standalone HTML pages you actually read instead of skim: 15 numbered chapters plus four field notes evaluating real-world setups.
 
-**[→ Read the guide](https://YOUR_USERNAME.github.io/agent-orchestration-guide/)**
+**[→ Read the guide](https://mikibakaiki.github.io/agent-orchestration-guide/)**
 
-> Replace `YOUR_USERNAME` above with your GitHub username once Pages is live.
 
 ---
 
