@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Personal AI agent orchestration — a pragmatic, skeptical guide</title>
+<title>Field note — Skills vs. agents</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -715,13 +715,17 @@ td code { font-size: 12.5px; }
 </style>
 </head>
 <body>
-<div class="wrap wrap-wide">
+<div class="wrap">
 <nav class="topnav">
-<span class="crumbs"><span>Personal AI agent orchestration</span></span>
+<span class="crumbs">
+<a href="index.html">← index</a>
+<span class="sep">·</span>
+<span class="chip"><span class="num">★</span><span>skills vs agents</span></span>
+</span>
 <details class="chapter-nav">
-<summary>15 chapters<span class="caret">▼</span></summary>
+<summary>field note<span class="caret">▼</span></summary>
 <div class="menu">
-<a class="is-home is-current" href="index.html"><span class="mnum">◆</span><span>Index — the hub</span></a>
+<a class="is-home" href="index.html"><span class="mnum">◆</span><span>Index — the hub</span></a>
 <div class="grp">Theory</div>
 <a class="" href="01-context-rot.html"><span class="mnum">01</span><span>Context rot, & why fresh context windows matter</span></a>
 <a class="" href="02-context-engineering.html"><span class="mnum">02</span><span>Context engineering: the operating system</span></a>
@@ -744,199 +748,218 @@ td code { font-size: 12.5px; }
 <div class="grp">Field notes</div>
 <a class="" href="eval-superpowers.html"><span class="mnum">★</span><span>Evaluating obra/superpowers</span></a>
 <a class="" href="eval-colleague.html"><span class="mnum">★</span><span>Evaluating a colleague's OpenCode agents</span></a>
-<a class="" href="skills-vs-agents.html"><span class="mnum">★</span><span>Skills vs. agents: what's the difference</span></a>
+<a class="is-current" href="skills-vs-agents.html"><span class="mnum">★</span><span>Skills vs. agents: what's the difference</span></a>
 <a class="" href="your-stack.html"><span class="mnum">★</span><span>Build your own: the best of both</span></a>
 </div>
 </details>
 </nav>
 
 <header>
-  <h1>Personal AI agent <em>orchestration</em></h1>
-  <p class="lede">A pragmatic, skeptical guide. Fifteen standalone HTML chapters: enough theory to make defensible choices, six concrete build steps for your stack, and four worked examples that go from a ten-minute bug fix to an overnight Ralph loop in a sandbox.</p>
-
-  <div class="callout">
-    <span class="label">the real claim</span>
-    <p>Your repetition problem — re-typing framework, code style, and git workflow into every prompt — is a <em>context-engineering</em> problem, not an agent problem. One good <code>AGENTS.md</code> solves more of it than five named "team-lead" or "architect" agents ever will. Build the boring markdown layer first. Then add agents where you can name the bottleneck they remove.</p>
-  </div>
-
-  <nav class="toc-chips">
-    <a href="#theory"><span class="n">i.</span>Theory · 4</a>
-    <a href="#build"><span class="n">ii.</span>Build · 6</a>
-    <a href="#examples"><span class="n">iii.</span>Examples · 4</a>
-    <a href="#operate"><span class="n">iv.</span>Operate · 1</a>
-  </nav>
+  <span class="section-num">Field note · concepts</span>
+  <h1>Skills vs. agents: <em>what's the difference</em></h1>
+  <p class="lede">The two setups in these field notes pick opposite primitives. Superpowers is built on <strong>skills</strong>; your colleague's setup is built on <strong>agents</strong>. They solve overlapping problems in fundamentally different ways — and once you see the distinction clearly, the choice of which to use when becomes obvious.</p>
 </header>
 
-<section id="theory">
-  <div class="section-head">
-    <span class="n">I.</span>
-    <h2>Theory</h2>
-    <span class="count">4 chapters</span>
-  </div>
-  <p class="section-intro">Why these patterns work, drawn from the actual papers and engineering posts — not the marketing decks. Read these first; they make the rest of the guide make sense, and they tell you when <em>not</em> to add an agent.</p>
-
-  <div class="cards cards-2">
-    <a class="card" href="01-context-rot.html">
-      <div class="filename">01-context-rot.html</div>
-      <div class="title">Context rot &amp; why fresh windows matter <span class="arrow">→</span></div>
-      <div class="desc">Liu et al.'s "lost in the middle," Chroma's 18-model degradation study, and the mechanism behind every pattern in the rest of this guide. Live U-curve visualization.</div>
-    </a>
-    <a class="card" href="02-context-engineering.html">
-      <div class="filename">02-context-engineering.html</div>
-      <div class="title">Context engineering: CPU, RAM, OS <span class="arrow">→</span></div>
-      <div class="desc">Karpathy's analogy and Anthropic's four strategies — Write, Select, Compress, Isolate. The shift from "prompt engineering" to managing what's in the context window.</div>
-    </a>
-    <a class="card" href="03-when-orchestration-helps.html">
-      <div class="filename">03-when-orchestration-helps.html</div>
-      <div class="title">When orchestration helps — and when it hurts <span class="arrow">→</span></div>
-      <div class="desc">Anthropic's 90.2% research-system win, the 15× token cost, and the MAST taxonomy showing 79% of multi-agent failures come from spec and coordination — not the model.</div>
-    </a>
-    <a class="card" href="04-patterns.html">
-      <div class="filename">04-patterns.html</div>
-      <div class="title">The four patterns worth knowing <span class="arrow">→</span></div>
-      <div class="desc">Ralph loop, orchestrator-worker, evaluator-optimizer (the reviewer loop), and routing. What each is for, what each costs, and where the evidence is thin.</div>
-    </a>
-  </div>
-</section>
-
-<section id="build">
-  <div class="section-head">
-    <span class="n">II.</span>
-    <h2>Build</h2>
-    <span class="count">6 steps</span>
-  </div>
-  <p class="section-intro">Six concrete steps for a developer using GitHub Copilot, OpenCode, VS Code, and the Copilot CLI. Each step is one HTML page with copy-able templates. Do them in order. The first one alone — your <code>AGENTS.md</code> — fixes most of the repetition pain.</p>
-
-  <div class="cards">
-    <a class="card" href="05-step-agents-md.html">
-      <div class="filename">05-step-agents-md.html · ~15 min</div>
-      <div class="title">Step 1 — Write your AGENTS.md <span class="arrow">→</span></div>
-      <div class="desc">The standardized cross-tool file. Global personal version + project version + path overrides. Templates you can copy and trim.</div>
-    </a>
-    <a class="card" href="06-step-copilot.html">
-      <div class="filename">06-step-copilot.html · ~10 min</div>
-      <div class="title">Step 2 — Wire it into Copilot, OpenCode, Claude Code <span class="arrow">→</span></div>
-      <div class="desc">Where each tool actually reads from. Symlinks, path-specific instructions, personal-vs-repo precedence, and how to verify it's loading.</div>
-    </a>
-    <a class="card" href="07-step-reviewer.html">
-      <div class="filename">07-step-reviewer.html · ~20 min</div>
-      <div class="title">Step 3 — Build a reviewer agent with teeth <span class="arrow">→</span></div>
-      <div class="desc">The single highest-ROI subagent: runs tests, lint, typecheck in its own context window, returns structured failures. Full OpenCode config.</div>
-    </a>
-    <a class="card" href="08-step-explorer-docs.html">
-      <div class="filename">08-step-explorer-docs.html · ~25 min</div>
-      <div class="title">Step 4 — Add an explorer and a docs-writer <span class="arrow">→</span></div>
-      <div class="desc">Two more agents, both narrow. Explorer is read-only and writes findings to disk. Docs-writer keeps README, CHANGELOG, and ADRs alive.</div>
-    </a>
-    <a class="card" href="09-step-worktrees.html">
-      <div class="filename">09-step-worktrees.html · ~10 min</div>
-      <div class="title">Step 5 — Git worktrees for parallel work <span class="arrow">→</span></div>
-      <div class="desc">Shell helpers (<code>wt</code>, <code>wtrm</code>, <code>wtclean</code>), why worktrees beat branches for agents, and the honest ceiling of two-to-three parallel sessions.</div>
-    </a>
-    <a class="card" href="10-step-hooks.html">
-      <div class="filename">10-step-hooks.html · ~20 min</div>
-      <div class="title">Step 6 — Hooks, slash commands, auto-docs <span class="arrow">→</span></div>
-      <div class="desc">Tie the docs-writer to a post-commit hook. Build slash commands (<code>/verify</code>, <code>/adr</code>) for the things you type twice a day.</div>
-    </a>
-  </div>
-</section>
-
-<section id="examples">
-  <div class="section-head">
-    <span class="n">III.</span>
-    <h2>Examples</h2>
-    <span class="count">4 walkthroughs</span>
-  </div>
-  <p class="section-intro">Same stack, four levels of complexity. Read them in order; each shows the agents in action with annotated turn-by-turn flow, costs, and what would have gone wrong without the structure.</p>
-
-  <div class="cards cards-2">
-    <a class="card" href="11-example-simple.html">
-      <div class="filename">11-example-simple.html · simple</div>
-      <div class="title">A. A 10-minute bug fix, the right way <span class="arrow">→</span></div>
-      <div class="desc">One agent, one reviewer, one commit. The minimum useful loop. Shows how AGENTS.md alone changes the output.</div>
-    </a>
-    <a class="card" href="12-example-medium.html">
-      <div class="filename">12-example-medium.html · medium</div>
-      <div class="title">B. Ship a feature with TDD + review + docs <span class="arrow">→</span></div>
-      <div class="desc">Plan mode → failing tests → implementation → reviewer → docs-writer hook. Three agents, six commits, one merged PR.</div>
-    </a>
-    <a class="card" href="13-example-parallel.html">
-      <div class="filename">13-example-parallel.html · complex</div>
-      <div class="title">C. Two features in parallel with worktrees <span class="arrow">→</span></div>
-      <div class="desc">Two terminals, two worktrees, two agents running in parallel. The merge-conflict story is the lesson.</div>
-    </a>
-    <a class="card" href="14-example-ralph.html">
-      <div class="filename">14-example-ralph.html · advanced</div>
-      <div class="title">D. A sandboxed Ralph loop, overnight <span class="arrow">→</span></div>
-      <div class="desc">A bash <code>while</code> loop, Docker, a hard cap, and the active supervision discipline. What it cost. Where it stuck. What you'd never run on your laptop.</div>
-    </a>
-  </div>
-</section>
-
-<section id="operate">
-  <div class="section-head">
-    <span class="n">IV.</span>
-    <h2>Operate</h2>
-    <span class="count">1 chapter</span>
-  </div>
-  <p class="section-intro">The one page nobody writes. How to know it's working, how to spot the seven common failure modes, and the kill-criterion that keeps your setup from accreting forever.</p>
-
-  <div class="cards">
-    <a class="card" href="15-operate.html">
-      <div class="filename">15-operate.html</div>
-      <div class="title">Evals, failure modes, and a kill criterion <span class="arrow">→</span></div>
-      <div class="desc">A 20-task personal eval suite, the seven failure modes with detection signals, prompt-caching for cost, and a three-month review that asks: is the full stack actually beating Copilot-with-a-good-AGENTS.md?</div>
-    </a>
-  </div>
-</section>
-
-<section id="field-notes">
-  <div class="section-head">
-    <span class="n">★</span>
-    <h2>Field notes</h2>
-    <span class="count">4 evaluations</span>
-  </div>
-  <p class="section-intro">Standalone reviews of real-world agent frameworks and configs, graded against the framework in this guide — plus the concepts and a full best-of-both build. Not part of the numbered sequence; read them when you're weighing whether to adopt someone else's setup.</p>
-
-  <div class="cards cards-2">
-    <a class="card" href="eval-superpowers.html">
-      <div class="filename">eval-superpowers.html</div>
-      <div class="title">Evaluating obra/superpowers <span class="arrow">→</span></div>
-      <div class="desc">A complete skills-and-subagents methodology. The most thorough public expression of these patterns — and the clearest case study in their costs. When to adopt it, when to strip it to two ideas.</div>
-    </a>
-    <a class="card" href="eval-colleague.html">
-      <div class="filename">eval-colleague.html</div>
-      <div class="title">Evaluating a colleague's OpenCode agents <span class="arrow">→</span></div>
-      <div class="desc">Eleven agents forming a real orchestrator-worker pipeline — TDD-first, dual A/B critics and reviewers across two models, tight permission rails. File-by-file, what to steal and what to fix.</div>
-    </a>
-    <a class="card" href="skills-vs-agents.html">
-      <div class="filename">skills-vs-agents.html</div>
-      <div class="title">Skills vs. agents: what's the difference <span class="arrow">→</span></div>
-      <div class="desc">The architectural fork between the two setups. A skill informs one mind; an agent brings a fresh one. Pros, cons, a decision table, and where each belongs in a cost-ordered stack.</div>
-    </a>
-    <a class="card" href="your-stack.html">
-      <div class="filename">your-stack.html</div>
-      <div class="title">Build your own: the best of both <span class="arrow">→</span></div>
-      <div class="desc">Full, copy-able OpenCode config that fuses superpowers' TDD/spec discipline, the colleague's cross-model A/B review and deny-rails, and this guide's lean foundation. With a week-by-week growth path.</div>
-    </a>
-  </div>
-</section>
-
-<section>
-  <h2>How to read this</h2>
-  <p>If you have an hour: read <a href="01-context-rot.html">01</a>, do <a href="05-step-agents-md.html">step 1</a>, read <a href="11-example-simple.html">example A</a>. That is the minimum viable version — and for many readers, it will be the maximum useful version.</p>
-  <p>If you have an afternoon: do steps 1–3, read examples A and B, skim the theory.</p>
-  <p>If you have a weekend: everything, in order. Build the full stack. Then read <a href="15-operate.html">15</a> and set a calendar reminder for ninety days from now to evaluate honestly whether it earned its keep.</p>
-</section>
-
-<div class="callout muted" style="margin-top:64px">
-  <span class="label">a warning, up front</span>
-  <p>The published Ralph-loop success stories are almost all <em>greenfield</em> work. The published parallel-agent wins are mostly <em>research breadth-first</em>. The published multi-agent benchmarks are mostly <em>vendor-internal</em>. None of that makes the patterns useless. It does mean you should weight the build steps in this order: <strong>boring file &gt; one good reviewer &gt; worktrees &gt; everything else</strong>.</p>
+<h2>The one-sentence version</h2>
+<div class="callout">
+  <span class="label">the distinction</span>
+  <p>A <strong>skill</strong> is <em>knowledge injected into the current context</em> — a procedure the same agent reads and follows. An <strong>agent</strong> is <em>a separate context window with its own tools and permissions</em> — work delegated to a fresh mind. Skills change what the agent <em>knows</em>; agents change <em>who does the work</em>.</p>
 </div>
 
+<h2>What each one actually is</h2>
+
+<div class="two-col">
+  <div class="col-card">
+    <h4>Skill</h4>
+    <p>A markdown file describing a procedure, loaded into the <em>current</em> agent's context when relevant. The agent reads it and follows the steps itself. No new context window, no handoff. Think of it as a just-in-time instruction manual the agent pulls off a shelf.</p>
+    <p style="margin-bottom:0"><strong>Mechanism:</strong> text appended to the active context. The same model, now better-informed.</p>
+  </div>
+  <div class="col-card">
+    <h4>Agent</h4>
+    <p>A separate invocation with its own system prompt, model, tools, and permissions. The orchestrating agent hands it a task; it works in isolation and returns a result. The parent never sees the agent's internal reasoning — only its output.</p>
+    <p style="margin-bottom:0"><strong>Mechanism:</strong> a fresh context window. A different worker, reporting back.</p>
+  </div>
+</div>
+
+<h2>Side by side</h2>
+
+<table>
+  <thead><tr><th>Dimension</th><th>Skill</th><th>Agent</th></tr></thead>
+  <tbody>
+    <tr><td>Context window</td><td>Shares the caller's window</td><td>Gets its own fresh window</td></tr>
+    <tr><td>What it changes</td><td>What the agent <em>knows</em></td><td><em>Who</em> does the work</td></tr>
+    <tr><td>Primary benefit</td><td>Reusable procedure, no drift</td><td>Context isolation (fights <a href="01-context-rot.html">rot</a>)</td></tr>
+    <tr><td>Tools &amp; permissions</td><td>Inherits the caller's</td><td>Its own, independently scoped</td></tr>
+    <tr><td>Model</td><td>Same as caller</td><td>Can differ (route per <a href="04-patterns.html">chapter 04</a>)</td></tr>
+    <tr><td>Cost</td><td>Cheap — just more tokens in one window</td><td>Expensive — a whole new invocation</td></tr>
+    <tr><td>Output</td><td>The agent acts on it directly</td><td>A summary returned to the parent</td></tr>
+    <tr><td>Failure mode</td><td>Bloats context if over-loaded</td><td>Coordination overhead, lost nuance at handoff</td></tr>
+    <tr><td>Best for</td><td>"How do we do X here?"</td><td>"Go do X and tell me the result"</td></tr>
+  </tbody>
+</table>
+
+<h2>The mental model that makes it click</h2>
+<p>Imagine onboarding a new engineer.</p>
+
+<div class="two-col">
+  <div class="col-card">
+    <h4>A skill is the runbook</h4>
+    <p>You hand them the document titled "How we deploy." They read it and now they know the procedure. It's <em>their</em> hands doing the work, but better-informed. The runbook doesn't do anything on its own — it makes whoever reads it more capable.</p>
+  </div>
+  <div class="col-card">
+    <h4>An agent is the specialist down the hall</h4>
+    <p>You say "ask the QA engineer to run the suite." They go away, do it in their own office with their own tools, and come back with "3 failures, here's the report." You never watched them work — you got the outcome. Their mess stayed in their office.</p>
+  </div>
+</div>
+
+<p>Both are useful. The runbook is how you stop re-explaining the deploy process. The specialist is how you avoid having to <em>become</em> a QA engineer mid-task. The mistake is using one where you need the other.</p>
+
+<h2>How the two setups embody this</h2>
+
+<div class="diagram">
+<svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Superpowers skills model vs colleague agents model">
+  <!-- skills side -->
+  <text x="175" y="30" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="18" fill="#f5a623">superpowers · skills</text>
+  <circle cx="175" cy="120" r="55" fill="#16161c" stroke="#f5a623" stroke-width="1.5"/>
+  <text x="175" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#e8e3d8">one agent</text>
+  <text x="175" y="132" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6a655c">one window</text>
+  <!-- skill docs feeding in -->
+  <rect x="60" y="70" width="40" height="26" fill="#16161c" stroke="#7a9669"/>
+  <rect x="55" y="105" width="40" height="26" fill="#16161c" stroke="#7a9669"/>
+  <rect x="60" y="140" width="40" height="26" fill="#16161c" stroke="#7a9669"/>
+  <line x1="100" y1="83" x2="125" y2="105" stroke="#7a9669" stroke-dasharray="2,2"/>
+  <line x1="95" y1="118" x2="122" y2="120" stroke="#7a9669" stroke-dasharray="2,2"/>
+  <line x1="100" y1="153" x2="125" y2="135" stroke="#7a9669" stroke-dasharray="2,2"/>
+  <text x="175" y="210" text-anchor="middle" font-family="Newsreader" font-style="italic" font-size="12" fill="#a39e92">skills loaded into</text>
+  <text x="175" y="226" text-anchor="middle" font-family="Newsreader" font-style="italic" font-size="12" fill="#a39e92">one mind, on demand</text>
+
+  <!-- divider -->
+  <line x1="350" y1="40" x2="350" y2="240" stroke="#25232b" stroke-dasharray="4,4"/>
+
+  <!-- agents side -->
+  <text x="525" y="30" text-anchor="middle" font-family="Instrument Serif" font-style="italic" font-size="18" fill="#f5a623">colleague · agents</text>
+  <rect x="490" y="55" width="70" height="34" fill="#16161c" stroke="#f5a623"/>
+  <text x="525" y="76" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f5a623">tech-lead</text>
+  <!-- subagent windows -->
+  <circle cx="435" cy="160" r="30" fill="#16161c" stroke="#7a9669"/>
+  <text x="435" y="163" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#a39e92">clarify</text>
+  <circle cx="505" cy="180" r="30" fill="#16161c" stroke="#7a9669"/>
+  <text x="505" y="183" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#a39e92">test</text>
+  <circle cx="580" cy="165" r="30" fill="#16161c" stroke="#7a9669"/>
+  <text x="580" y="168" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#a39e92">review</text>
+  <line x1="510" y1="89" x2="445" y2="132" stroke="#7a9669"/>
+  <line x1="525" y1="89" x2="505" y2="150" stroke="#7a9669"/>
+  <line x1="540" y1="89" x2="572" y2="137" stroke="#7a9669"/>
+  <text x="525" y="225" text-anchor="middle" font-family="Newsreader" font-style="italic" font-size="12" fill="#a39e92">work split across</text>
+  <text x="525" y="241" text-anchor="middle" font-family="Newsreader" font-style="italic" font-size="12" fill="#a39e92">many fresh windows</text>
+</svg>
+</div>
+
+<p>Superpowers <em>does</em> use subagents too — but its primitive, the thing you author and compose, is the skill. Your colleague's setup <em>has</em> procedural knowledge in its prompts too — but its primitive is the agent. Each leans on one mechanism as the unit of design.</p>
+
+<h2>Pros and cons</h2>
+
+<h3>Skills</h3>
+<div class="two-col">
+  <div class="col-card">
+    <h4>Pros</h4>
+    <ul>
+      <li>Cheap — no extra invocation, just context tokens</li>
+      <li>The agent keeps full holistic view of the task</li>
+      <li>Composable — many skills can apply at once</li>
+      <li>Easy to author: it's just a markdown procedure</li>
+      <li>No handoff means no nuance lost in translation</li>
+      <li>Portable across harnesses (markdown is markdown)</li>
+    </ul>
+  </div>
+  <div class="col-card">
+    <h4>Cons</h4>
+    <ul>
+      <li>Everything shares one window → <a href="01-context-rot.html">context rot</a> as skills pile up</li>
+      <li>No permission isolation — the agent has all its tools the whole time</li>
+      <li>Can't route to a cheaper/different model per task</li>
+      <li>"Mandatory" skills can fire when they don't fit</li>
+      <li>No parallelism — one mind, one thing at a time</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Agents</h3>
+<div class="two-col">
+  <div class="col-card">
+    <h4>Pros</h4>
+    <ul>
+      <li>Fresh context window each time — directly fights rot</li>
+      <li>Independent permission scoping (read-only reviewer, etc.)</li>
+      <li>Per-task model routing (Haiku to explore, Opus to design)</li>
+      <li>True parallelism (the A/B critics, worktrees)</li>
+      <li>The parent's window stays clean — only summaries return</li>
+    </ul>
+  </div>
+  <div class="col-card">
+    <h4>Cons</h4>
+    <ul>
+      <li>Expensive — each agent is a full invocation (the <a href="03-when-orchestration-helps.html">15× tax</a>)</li>
+      <li>Coordination overhead; handoffs lose nuance (<a href="03-when-orchestration-helps.html">MAST</a>)</li>
+      <li>The orchestrator accumulates context and can itself rot</li>
+      <li>More machinery to maintain and debug</li>
+      <li>Easy to over-decompose coupled work that shouldn't be split</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Where to use what</h2>
+
+<table>
+  <thead><tr><th>If you want to…</th><th>Use a…</th><th>Because</th></tr></thead>
+  <tbody>
+    <tr><td>Encode "how we do TDD here"</td><td>Skill</td><td>It's a procedure the working agent should follow in-place</td></tr>
+    <tr><td>Run tests in a clean window and report back</td><td>Agent</td><td>You want isolation + a verifier with its own tools</td></tr>
+    <tr><td>Enforce a commit-message format</td><td>Skill (or AGENTS.md)</td><td>Knowledge the agent applies as it works</td></tr>
+    <tr><td>Review a diff without bias from the implementer's reasoning</td><td>Agent</td><td>Fresh window is the entire point</td></tr>
+    <tr><td>Explore a big codebase without polluting the main window</td><td>Agent</td><td>Isolate the 50K-token read; return a summary</td></tr>
+    <tr><td>Standardize how to write an ADR</td><td>Skill</td><td>A template + procedure, applied in-place</td></tr>
+    <tr><td>Get two independent opinions on a plan</td><td>Agents</td><td>Two windows, two models, run in parallel</td></tr>
+    <tr><td>Remember your stack preferences everywhere</td><td>Skill / AGENTS.md</td><td>Declarative knowledge, always loaded</td></tr>
+    <tr><td>Do a cheap mechanical task to save money</td><td>Agent</td><td>Route it to a small model in its own window</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <span class="label">the heuristic</span>
+  <p>Ask: <em>"Do I need a different brain, or just a better-informed one?"</em> Different brain — different window, different tools, different model, or parallel — that's an <strong>agent</strong>. Same brain, just needs to know the procedure — that's a <strong>skill</strong>. If the answer is "the same agent should just know this," reaching for an agent is over-engineering. If it's "I need this done in isolation and verified," a skill won't give you the isolation.</p>
+</div>
+
+<h2>The relationship to AGENTS.md</h2>
+<p>Where does the <a href="05-step-agents-md.html">AGENTS.md</a> from this guide's step 1 sit? It's the <em>always-on skill</em> — declarative knowledge loaded at the top of every window, every session, no trigger needed. A skill (superpowers-style) is a <em>conditionally-loaded</em> procedure: pulled in when relevant. So there's a spectrum:</p>
+
+<div class="steps">
+  <div class="step">
+    <h3>AGENTS.md — always loaded</h3>
+    <p>Your unconditional house rules and stack. Every session, top of window. The cheapest, most reliable layer. Start here.</p>
+  </div>
+  <div class="step">
+    <h3>Skills — loaded on demand</h3>
+    <p>Procedures too long or too situational for AGENTS.md. "How to do a database migration here." Loaded when the task matches, then they leave. Keeps AGENTS.md lean.</p>
+  </div>
+  <div class="step">
+    <h3>Agents — dispatched when isolation pays</h3>
+    <p>When you need a fresh window, different tools, a different model, or parallel work. The most powerful and most expensive layer. Add only where you can name the bottleneck (<a href="03-when-orchestration-helps.html">chapter 03</a>).</p>
+  </div>
+</div>
+
+<p>The progression is cost-ordered: always-on text is nearly free, on-demand skills cost a little, agents cost a lot. Reach down the list only when the cheaper layer can't do the job. That ordering is the whole thesis of this guide, restated in primitives.</p>
+
+<div class="callout muted">
+  <span class="label">a note on tooling reality</span>
+  <p>Not every harness has first-class "skills." Claude Code has skills, subagents, and CLAUDE.md. OpenCode centers on agents + AGENTS.md. Copilot has instructions files + path-scoped instructions. The <em>concepts</em> are universal even where the feature names differ — an "instructions file scoped to a path" is a skill by another name; a "subagent" is an agent. Map the concept onto whatever your tool calls it.</p>
+</div>
+
+<p>Next: how to combine all three layers into a single personal setup that takes the best of both worlds — with full, copy-able code.</p>
+
 <nav class="pager">
-<span></span>
-<a href="01-context-rot.html" class="next"><div class="dir">next →</div><div class="title">Context rot, & why fresh context windows matter</div></a>
+<a href="eval-colleague.html"><div class="dir">← previous note</div><div class="title">Evaluating a colleague's OpenCode agents</div></a>
+<a href="your-stack.html" class="next"><div class="dir">next note →</div><div class="title">Build your own: the best of both</div></a>
 </nav>
 <footer class="footer">
 <span>Personal AI agent orchestration · 2026</span>
